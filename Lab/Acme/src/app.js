@@ -68,8 +68,6 @@ app.use(
         authRequired: false,
         authorizationParams: {
             response_type: "code",
-            audience: process.env.BACKEND_AUDIENCE,
-            scope: "openid profile email offline_access read:current_user_expenses"
         },
         routes: {
             login: false
@@ -86,8 +84,6 @@ async function fetchProtectedResource(req, url, method, body, headers) {
         body: body ? JSON.stringify(body) : null,
         headers: new Headers({
             "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${req.oidc.accessToken.access_token}`,
             ...headers,
         }),
     }

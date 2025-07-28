@@ -9,7 +9,6 @@ import express from 'express'
 import logger from 'morgan'
 import path, { dirname, normalize } from 'path'
 import { fileURLToPath } from 'url'
-import { auth, requiredScopes } from 'express-oauth2-jwt-bearer'
 
 dotenv.config()
 
@@ -36,14 +35,6 @@ app.use(express.static(path.join(__dirname, "public")))
 app.get('/', (req, res) => {
     res.render("home", { })
 })
-
-// This middleware requires authorization for any middleware registered after it.
-app.use(auth({
-    audience: process.env.AUDIENCE,
-    issuer: process.env.ISSUER_BASE_URL,
-    jwksUri: process.env.JWKS_URI,
-    tokenSigningAlg: process.env.TOKEN_SIGNING_ALG || 'RS256'
-}))
 
 // This returns the expenses for the current user; This is a mock; in a real application we would
 // use req.auth.payload.sub to get retrieve the data by the current user ID.

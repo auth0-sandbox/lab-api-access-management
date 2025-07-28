@@ -56,7 +56,7 @@ right-click, and choose *Open in Integrated Terminal*.
     AUDIENCE=https://acme-fm-backend-api
     ```
 
-1. Close the .env file.
+1. Save and close the .env file.
 
 1. Open the *Run/Debug* panel from the VS Code toolbar.
 
@@ -70,9 +70,11 @@ right-click, and choose *Open in Integrated Terminal*.
     Use ctrl/cmd-click with the link to open the landing page for the API.
 
 1. Verify that a landing page for the API is presented with documentation about its endpoints.
-Click on the /totals and /reports endpoints to make sure the application returns JSON data:
+Click on the /expenses endpoint to make sure the application returns JSON data:
 
     <div style="text-align: center"><img src="./.assets/images/backend-api-landing-page.png" /></div>
+
+    NOTE: clicking the /expenses/{userid} endpoint will result in a permission error.
 
 1. In the terminal window add the package for verifying Auth0 access tokens:
 
@@ -106,7 +108,7 @@ Click on the /totals and /reports endpoints to make sure the application returns
     }))
     ```
 
-1. Locate the /totals endpoint beginning with the code in this block:
+1. Locate the /expenses endpoint beginning with the code in this block:
 
     ```js
     app.get('/expenses', (req, res) => {...
@@ -116,7 +118,7 @@ Click on the /totals and /reports endpoints to make sure the application returns
 argument to *app.get*:
 
     ```js
-    app.get('/expenses', requiredScopes('read:totals'), (req, res) => {
+    app.get('/expenses', requiredScopes('read:current_user_expenses'), (req, res) => {
     ```
 
 1. Locate the middleware which serves expenses for a specific user and examine it:
@@ -335,12 +337,25 @@ t    o get the ID token properly:
 
     NOTE: grave accents (` over the tab key on the keyboard) are used around the JavaScript template literal (the value);
     they are not single-quotation marks!
+
+1. Save the app.js file.
     
 1. In the Run/Debug panel make sure *Launch Acme FM* is selected as the launch configuration and launch the program.
 
-1. Sign on to the app with the user from before; this should be the user that has the role with the API permissions.
+1. Click the Acme FM in the Call Stack on the Run/Debug panel.
 
-1. The landing page should show an internal error talking to the API.
+1. In the DEBUG CONSOLE for the Acme FM application, locate the link to the application.
+
+1. Only if inside a GitHub Codespace:
+    1. Copy the link to the application.
+    1. In the Auth0 settings for the Acme FM application paste the link as the logout URL.
+    1. Paste the link with /callback appended as the callback URL.
+
+1. Use the link to open the application page in the browser.
+
+1. Sign on to the app with Will Notspend; this is the user that has the role with the API permissions.
+
+1. The landing page will show an internal error talking to the API.
     The API is not running, we just want to make sure the app would launch first and verify the authentication provides the access token!
 
 1. Click the name of the user on the landing page or the user icon at the upper right to
